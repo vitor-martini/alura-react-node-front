@@ -1,15 +1,21 @@
-import './style.css'
 import Logo from '../logo';
 import HeaderIcones from '../headerIcones';
 import HeaderOpcoes from '../headerOpcoes';
+import styled from 'styled-components';
+
+const HeaderContainer = styled.header`
+    background-color: white;
+    display: flex;
+    justify-content: center;
+`
 
 function Header() {
     return (
-        <header className='App-header'>
+        <HeaderContainer>
             <Logo/>
             <HeaderOpcoes/>
             <HeaderIcones/>        
-        </header>
+        </HeaderContainer>
     )
 }
 
