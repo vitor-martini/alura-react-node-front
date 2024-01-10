@@ -1,5 +1,7 @@
 import Input from '../input';
 import styled from  'styled-components';
+import { useState } from 'react';
+import { livros } from './dadosPesquisa';
 
 const PesquisaContainer = styled.section`
   background-image: linear-gradient(90deg, #002F52 35%, #326589 165%);
@@ -23,12 +25,43 @@ const Subtitulo = styled.h3`
   margin-bottom: 40px;
 `;
 
+const ResultadoPesquisa = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  p {
+      width: 200px;
+  }
+  img {
+      width: 100px;
+  }
+  &:hover {
+      border: 1px solid white;
+  }
+`;
+
 function Pesquisa(){
+  const [livrosPesquisados, setLivrosPesquisados] = useState([])
   return (
     <PesquisaContainer>
       <Titulo>Já sabe por onde começar?</Titulo>
       <Subtitulo>Encontre seu livro em nossa estante.</Subtitulo>
-      <Input placeholder='Procure pela sua próxima leitura'/>
+      <Input 
+        placeholder='Procure pela sua próxima leitura'
+        onBlur={evento => {
+          const livroPesquisado = evento.target.value
+          const resultadoPesquisa = livros.filter(livro => livro.nome.includes(livroPesquisado))
+          setLivrosPesquisados(resultadoPesquisa)
+        }} 
+      />
+      { livrosPesquisados.map(livro => (
+        <ResultadoPesquisa>
+          <p>{livro.nome}</p>
+          <img src={livro.src} alt='capa do livro'/>
+        </ResultadoPesquisa>
+      ))}
     </PesquisaContainer>
   );
 }
