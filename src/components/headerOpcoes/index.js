@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Opcoes = styled.ul`
@@ -14,14 +15,22 @@ const Opcao = styled.li`
     min-width: 120px;
 `;
 
-const textoOpcoes = ['CATEGORIAS', 'FAVORITOS', 'MINHA ESTANTE'];
+const opcoes = [
+    {nome: 'CATEGORIAS', path: '/categorias'}, 
+    {nome: 'FAVORITOS', path: '/favoritos'},
+    {nome: 'MINHA ESTANTE', path: '/minha-estante'}
+];
 
 function HeaderOpcoes() {
     return (
         <Opcoes>
-          { textoOpcoes.map( texto => (
-            <Opcao><p>{texto}</p></Opcao>
-            )) }
+          {
+            opcoes.map((item) => (
+                <Link to={item.path}>
+                    <Opcao><p>{item.nome}</p></Opcao>
+                </Link>
+            ))
+          }
         </Opcoes>
     )
 }
