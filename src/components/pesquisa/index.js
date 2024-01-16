@@ -1,7 +1,9 @@
 import Input from '../input';
 import styled from  'styled-components';
 import { useState } from 'react';
-import { livros } from './dadosPesquisa';
+import { useEffect } from 'react';
+import { getLivros } from '../../services/livros';
+import iconeLivro from '../../img/livro.png'
 
 const PesquisaContainer = styled.section`
   background-image: linear-gradient(90deg, #002F52 35%, #326589 165%);
@@ -44,6 +46,17 @@ const ResultadoPesquisa = styled.div`
 
 function Pesquisa(){
   const [livrosPesquisados, setLivrosPesquisados] = useState([])
+  const [livros, setLivros] = useState([])
+
+  useEffect(() => {
+    fetchLivros()
+  }, [])
+
+  async function fetchLivros(){
+    const livrosDaAPI = await getLivros()
+    setLivros(livrosDaAPI)
+  }
+
   return (
     <PesquisaContainer>
       <Titulo>Já sabe por onde começar?</Titulo>
@@ -59,7 +72,7 @@ function Pesquisa(){
       { livrosPesquisados.map(livro => (
         <ResultadoPesquisa>
           <p>{livro.nome}</p>
-          <img src={livro.src} alt='capa do livro'/>
+          {/* <img src={iconeLivro} alt='capa do livro'/> */}
         </ResultadoPesquisa>
       ))}
     </PesquisaContainer>
