@@ -3,7 +3,7 @@ import styled from  'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getLivros } from '../../services/livros';
-import iconeLivro from '../../img/livro.png'
+import { postFav } from '../../services/favoritos'
 
 const PesquisaContainer = styled.section`
   background-image: linear-gradient(90deg, #002F52 35%, #326589 165%);
@@ -57,6 +57,11 @@ function Pesquisa(){
     setLivros(livrosDaAPI)
   }
 
+  async function insertFav(id) {
+    await postFav(id)
+    alert('Livro inserido aos favoritos!')
+  }
+
   return (
     <PesquisaContainer>
       <Titulo>Já sabe por onde começar?</Titulo>
@@ -65,14 +70,13 @@ function Pesquisa(){
         placeholder='Procure pela sua próxima leitura'
         onBlur={evento => {
           const livroPesquisado = evento.target.value
-          const resultadoPesquisa = livros.filter(livro => livro.nome.includes(livroPesquisado))
+          const resultadoPesquisa = livros.filter(livro => livro.name.includes(livroPesquisado))
           setLivrosPesquisados(resultadoPesquisa)
         }} 
       />
       { livrosPesquisados.map(livro => (
-        <ResultadoPesquisa>
-          <p>{livro.nome}</p>
-          {/* <img src={iconeLivro} alt='capa do livro'/> */}
+        <ResultadoPesquisa onClick={() => insertFav(livro.id)}>
+          <p>{livro.name}</p>
         </ResultadoPesquisa>
       ))}
     </PesquisaContainer>
